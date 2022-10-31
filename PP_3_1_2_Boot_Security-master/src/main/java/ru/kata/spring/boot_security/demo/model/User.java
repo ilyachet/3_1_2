@@ -12,9 +12,9 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.util.Collection;
+import java.util.Objects;
 
 @Entity
-@Data
 @Table(name = "users")
 public class User implements UserDetails {
 
@@ -46,6 +46,55 @@ public class User implements UserDetails {
     private Collection<Role> roles;
 
     public User() {
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public void setRoles(Collection<Role> roles) {
+        this.roles = roles;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public Collection<Role> getRoles() {
+        return roles;
     }
 
     public User(String name, String surname, int age) {
@@ -99,18 +148,17 @@ public class User implements UserDetails {
         return true;
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         User user = (User) o;
-
-        if (age != user.age) return false;
-        if (!name.equals(user.getName())) return false;
-        if (!surname.equals(user.getSurname())) return false;
-        if (!password.equals(user.getPassword())) return false;
-        return roles.equals(user.getRoles());
+        return getId() == user.getId();
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId());
+    }
 }
